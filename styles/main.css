@@ -1,0 +1,46 @@
+body{
+	background:linear-gradient(90deg, rgba(188, 243, 240, 0.432),  rgba(159, 231, 228, 0.432));
+	
+}
+
+#title{
+	font-size: 40px;
+	line-height: 75px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+
+.menu-object{
+	display:block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 350px;
+	height: 75px;
+	font-size: 16px;
+	margin-top: 10px;
+}
+
+button.menu-object{
+	background: rgb(43, 192, 202);
+	border: none;
+}
+
+p{
+	text-align: center;
+}
+
+
+button.menu-object:active{
+	font-size: 18px;
+	width: 300px;
+	height: 70px;
+
+}
+
+button.menu-object:hover:not(:active){
+	font-size: 22px;
+	width: 375px;
+	height: 85px;
+	background:rgb(43, 202, 154);
+}
+
