@@ -10,6 +10,11 @@ var json = localStorage.getItem("config");
 	if(json)
 		options_data = JSON.parse(json);
 
+function mostrarTodas(){
+	
+	//Vue.set(this.current_card, i, {done: false, texture: this.items[]});
+}
+
 
 
 var game = new Vue({
@@ -32,15 +37,20 @@ var game = new Vue({
 		for (var i = 0; i < this.items.length; i++){
 			this.current_card.push({done: false, texture: back});
 		}
+		mostrarTodas();
 	},
 	methods: {
 		clickCard: function(i){
 			if (!this.current_card[i].done && this.current_card[i].texture === back)
-				Vue.set(this.current_card, i, {done: false, texture: this.items[i]});
+			{
+				Vue.set(this.current_card, i, {done: false, texture: this.items[i]});				
+			}
+				
+			
 		}
 	},
 	watch: {
-		current_card: function(value){
+		current_card: function(value){			
 			if (value.texture === back) return;
 			var front = null;
 			var i_front = -1;
