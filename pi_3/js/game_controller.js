@@ -2,6 +2,8 @@ const back = "../resources/back.png";
 const items = ["../resources/cb.png","../resources/co.png","../resources/sb.png",
 "../resources/so.png","../resources/tb.png","../resources/to.png"];
 
+
+//Selecciona n parells i dificultat
 var options_data = {
 	cards:2, dificulty:"hard"
 };
@@ -10,10 +12,6 @@ var json = localStorage.getItem("config");
 	if(json)
 		options_data = JSON.parse(json);
 
-function mostrarTodas(){
-	
-	//Vue.set(this.current_card, i, {done: false, texture: this.items[]});
-}
 
 
 
@@ -35,23 +33,52 @@ var game = new Vue({
 		this.items = this.items.concat(this.items); // Dupliquem els elements
 		this.items.sort(function(){return Math.random() - 0.5}); // Array aleatòria
 		for (var i = 0; i < this.items.length; i++){
-			this.current_card.push({done: false, texture: back});
+			this.current_card.push({done: false, texture: this.items[i]});
+		}	
+		
+		//Set dificultad
+		tiempoMostrar = [1500,600,150]; // E/N/H
+		penalizacionError = [15,30,40]  // E/N/H
+		//Mostrar cartas al inicio
+		mostrandoCartas = true;
+		obj = this;
+		function comienzaElJuego()
+		{
+			for(var i = 0; i < obj.items.length; i++)
+				Vue.set(obj.current_card, i, {done: false, texture: back});	
+				
+			mostrandoCartas = false				
+		}		
+		switch(options_data.dificulty){
+			case "easy":
+				i_dif = 0;
+
+			break;
+			case "normal":
+				i_dif = 1;
+				break;
+			case "hard":
+				i_dif = 2;
+			break;
 		}
-		mostrarTodas();
+		setTimeout(comienzaElJuego, tiempoMostrar[i_dif]);	
+		
+	
 	},
 	methods: {
 		clickCard: function(i){
+			
 			if (!this.current_card[i].done && this.current_card[i].texture === back)
 			{
 				Vue.set(this.current_card, i, {done: false, texture: this.items[i]});				
-			}
-				
-			
+			}			
 		}
+		
+			
 	},
 	watch: {
 		current_card: function(value){			
-			if (value.texture === back) return;
+			if (value.texture === back || mostrandoCartas ) return;
 			var front = null;
 			var i_front = -1;
 			for (var i = 0; i < this.current_card.length; i++){
@@ -78,7 +105,7 @@ var game = new Vue({
 	},
 	computed: {
 		score_text: function(){
-			return 100 - this.bad_clicks * 20;
+			return 100 - this.bad_clicks * penalizacionError[i_dif];
 		}
 	}
 });
